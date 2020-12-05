@@ -1,0 +1,45 @@
+{
+    "family": "hcbe-windows-wfweb",
+    "executionRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "hcbewfweb",
+            "image": "884173598481.dkr.ecr.eu-central-1.amazonaws.com/hcbewfweb:202012020451",
+            "cpu": 3072,
+            "memory": 12288,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 8443,
+                    "containerPort": 8443,
+                    "protocol": "tcp"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "G_MStorage",
+                    "containerPath": "C:/MStorage"
+                },
+                {
+                    "sourceVolume": "G_Logs_WF",
+                    "containerPath": "C:/Logs"
+                }
+            ]
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "G:/MStorage"
+            },
+            "name": "G_MStorage"
+        },
+        {
+            "host": {
+                "sourcePath": "G:/MStorage/Logs/WF"
+            },
+            "name": "G_Logs_WF"
+        }
+    ]
+}

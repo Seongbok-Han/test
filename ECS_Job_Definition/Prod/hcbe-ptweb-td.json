@@ -1,0 +1,60 @@
+{
+    "family": "hcbe-windows-ptweb",
+    "executionRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "hcbeptweb",
+            "image": "884173598481.dkr.ecr.eu-central-1.amazonaws.com/hcbeptweb:202012020451",
+            "cpu": 3072,
+            "memory": 12288,
+            "essential": true,
+            "portMappings": [
+                {
+                    "hostPort": 443,
+                    "containerPort": 443,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9900,
+                    "containerPort": 9900,
+                    "protocol": "tcp"
+                }
+            ],
+            "mountPoints": [
+                {
+                    "sourceVolume": "G_Mstorage",
+                    "containerPath": "C:\\MStorage"
+                },
+                {
+                    "sourceVolume": "G_MStorageTemp",
+                    "containerPath": "C:\\MStorageTemp"
+                },
+                {
+                    "sourceVolume": "G_Logs_PT",
+                    "containerPath": "C:\\Logs"
+                }
+            ]
+        }
+    ],
+    "volumes": [
+        {
+            "host": {
+                "sourcePath": "G:/MStorage"
+            },
+            "name": "G_Mstorage"
+        },
+        {
+            "host": {
+                "sourcePath": "G:/MStorageTemp"
+            },
+            "name": "G_MStorageTemp"
+        },
+        {
+            "host": {
+                "sourcePath": "G:/MStorage/Logs/PT"
+            },
+            "name": "G_Logs_PT"
+        }
+    ]
+}

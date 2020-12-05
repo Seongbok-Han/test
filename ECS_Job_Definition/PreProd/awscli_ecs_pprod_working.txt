@@ -1,0 +1,65 @@
+###Pre-Prod Job Ddfiniton
+cd C:\WorkArea\ECS_Job_Definition\PreProd
+
+작업정의 목록
+aws ecs list-task-definitions
+
+포탈 웹 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition pprod-window-ptweb:36
+
+결제 웹 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition pprod-window-wfweb:37
+
+BPM AP 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition pprod-linux-bpmap:1
+
+--------------------------------------------------------------------------------------------
+포탈 웹 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://pprod-ptweb-td.json
+
+결제 웹 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://pprod-wfweb-td.json
+
+BPM AP 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://pprod-bpmap-td.json
+
+---------------------------------------------------------------------------------------------
+포탈 웹 서비스 등록
+aws ecs create-service --cluster hcbe-pprod-ecs-cluster-Windows --task-definition pprod-window-ptweb --desired-count 1 --service-name pprod-windows-ptweb-service
+
+결제 웹 서비스 등록
+aws ecs create-service --cluster hcbe-pprod-ecs-cluster-Windows --task-definition pprod-window-wfweb --desired-count 1 --service-name pprod-windows-wfweb-service
+
+BPM AP 서비스 등록
+aws ecs create-service --cluster hcbe-pprod-ecs-cluster-linux --task-definition pprod-linux-bpmap --desired-count 1 --service-name pprod-linux-bpmap-service
+
+----------------------------------------------------------------------------------------------
+포탈 웹 서비스 업데이트
+aws ecs update-service --cluster hcbe-pprod-ecs-cluster-Windows --service pprod-windows-ptweb-service --task-definition pprod-window-ptweb:36
+
+결제 웹 서비스 업데이트
+aws ecs update-service --cluster hcbe-pprod-ecs-cluster-Windows --service pprod-windows-wfweb-service --task-definition pprod-window-wfweb:38
+
+BPM AP 서비스 업데이트
+aws ecs update-service --cluster hcbe-pprod-ecs-cluster-Windows --service pprod-windows-wfweb-service --task-definition pprod-window-wfweb:2
+
+---------------------------------------------------------------------------------------------
+실행중인 작업 확인
+aws ecs list-tasks --cluster hcbe-pprod-ecs-cluster-Windows --service-name pprod-windows-ptweb-service
+aws ecs list-tasks --cluster hcbe-pprod-ecs-cluster-Windows --service-name pprod-windows-wfweb-service
+aws ecs list-tasks --cluster hcbe-pprod-ecs-cluster-linux --service-name pprod-linux-bpmap-service
+
+---------------------------------------------------------------------------------------------
+실행중인 작업 중지
+aws ecs stop-task  --cluster hcbe-pprod-ecs-cluster-Windows --task d5921930b4794046b29d3bfff412c51f
+aws ecs stop-task  --cluster hcbe-pprod-ecs-cluster-Windows --task 30e17e371dec4c01aa13241f53a14f71
+
+aws ecs stop-task  --cluster hcbe-pprod-ecs-cluster-linux --task 780e0bc70e494b0bbde6873ac5e48edf
+
+---------------------------------------------------------------------------------------------
+작업 실행
+aws ecs run-task  --cluster hcbe-pprod-ecs-cluster-Windows --task-definition pprod-window-ptweb:36
+
+aws ecs run-task  --cluster hcbe-pprod-ecs-cluster-Windows --task-definition pprod-window-wfweb:38
+
+aws ecs run-task  --cluster hcbe-pprod-ecs-cluster-linux --task-definition pprod-linux-bpmap:2

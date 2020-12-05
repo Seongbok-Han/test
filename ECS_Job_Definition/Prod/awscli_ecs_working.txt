@@ -1,0 +1,62 @@
+###Prod Job Ddfiniton
+cd C:\WorkArea\ECS_Job_Definition\Prod
+
+작업정의 목록
+aws ecs list-task-definitions
+
+포탈 웹 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition hcbe-windows-ptweb:9
+
+결제 웹 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition hcbe-windows-wfweb:9
+
+BPM AP 작업정의 등록 취소
+aws ecs deregister-task-definition --task-definition hcbe-linux-bpmap:15
+
+--------------------------------------------------------------------------------------------
+포탈 웹 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://hcbe-ptweb-td.json
+
+포탈 웹 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://hcbe-wfweb-td.json
+
+BPM AP 작업정의 등록
+aws ecs register-task-definition --cli-input-json file://hcbe-bpmap-td.json
+
+---------------------------------------------------------------------------------------------
+포탈 웹 서비스 등록
+aws ecs create-service --cluster hcbe-ecs-cluster-windows --task-definition hcbe-windows-ptweb --desired-count 2 --service-name hcbe-windows-ptweb-service
+
+결제 웹 서비스 등록
+aws ecs create-service --cluster hcbe-ecs-cluster-windows --task-definition hcbe-windows-wfweb --desired-count 2 --service-name hcbe-windows-wfweb-service
+
+BPM AP 서비스 등록
+aws ecs create-service --cluster hcbe-ecs-cluster-linux --task-definition hcbe-linux-bpmap --desired-count 2 --service-name hcbe-linux-bpmap-service
+
+----------------------------------------------------------------------------------------------
+포탈 웹 서비스 업데이트
+aws ecs update-service --cluster hcbe-ecs-cluster-windows --service hcbe-windows-ptweb-service --task-definition hcbe-windows-ptweb:10
+
+결제 웹 서비스 업데이트
+aws ecs update-service --cluster hcbe-ecs-cluster-windows --service hcbe-windows-wfweb-service --task-definition hcbe-windows-wfweb:10
+
+BPM AP 서비스 업데이트
+aws ecs update-service --cluster hcbe-ecs-cluster-linux --service hcbe-linux-bpmap-service --task-definition hcbe-linux-bpmap:16
+
+---------------------------------------------------------------------------------------------
+실행중인 작업 확인
+aws ecs list-tasks --cluster hcbe-ecs-cluster-windows --service-name hcbe-windows-ptweb-service
+aws ecs list-tasks --cluster hcbe-ecs-cluster-windows --service-name hcbe-windows-wfweb-service
+aws ecs list-tasks --cluster hcbe-ecs-cluster-linux --service-name hcbe-linux-bpmap-service
+---------------------------------------------------------------------------------------------
+실행중인 작업 중지
+aws ecs stop-task  --cluster hcbe-ecs-cluster-windows --task 780e0bc70e494b0bbde6873ac5e48edf
+aws ecs stop-task  --cluster hcbe-ecs-cluster-linux --task 780e0bc70e494b0bbde6873ac5e48edf
+
+---------------------------------------------------------------------------------------------
+작업 실행
+aws ecs run-task  --cluster hcbe-ecs-cluster-windows --task-definition hcbe-windows-ptweb:10
+
+aws ecs run-task  --cluster hcbe-ecs-cluster-windows --task-definition hcbe-windows-wfweb:10
+
+aws ecs run-task  --cluster hcbe-ecs-cluster-linux --task-definition hcbe-linux-bpmap:13

@@ -1,0 +1,61 @@
+{
+    "family": "hcbe-linux-bpmap",
+    "networkMode": "bridge",
+    "executionRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::884173598481:role/hcbe-ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "name": "hcbebpmap",
+            "image": "884173598481.dkr.ecr.eu-central-1.amazonaws.com/hcbebpmap:202012021547",
+            "cpu": 3072,
+            "memoryReservation": 12288,
+            "portMappings": [
+                {
+                    "hostPort": 8080,
+                    "containerPort": 8080,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 8082,
+                    "containerPort": 8082,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9990,
+                    "containerPort": 9990,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9991,
+                    "containerPort": 9991,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9999,
+                    "containerPort": 9999,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9080,
+                    "containerPort": 9080,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9082,
+                    "containerPort": 9082,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9090,
+                    "containerPort": 9090,
+                    "protocol": "tcp"
+                },
+                {
+                    "hostPort": 9091,
+                    "containerPort": 9091,
+                    "protocol": "tcp"
+                }
+            ]
+        }
+    ]
+}
